@@ -46,6 +46,7 @@ def inference(
     test_df,
     test_folder,
     transform,
+    output_path="output.txt",
     device="cuda",
     output_fpath="output.csv",
 ):
