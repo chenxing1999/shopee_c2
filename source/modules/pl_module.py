@@ -69,7 +69,7 @@ class SimpleModule(LightningModule):
             x["n_pred"] for x in outputs
         )
         tensorboard_logs = {"val_loss": avg_loss, "val_acc": val_acc}
-        return {"val_loss": avg_loss, "log": tensorboard_logs}
+        return {"val_loss": avg_loss, "log": tensorboard_logs, "progress_bar": {"acc": val_acc}}
 
     # ---------------------
     # TRAINING SETUP
@@ -80,5 +80,6 @@ class SimpleModule(LightningModule):
         At least one optimizer is required.
         """
         optimizer = optim.Adam(self.parameters(), lr=self.learning_rate)
-        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=10)
+        # scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=10)
+        scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer)
         return [optimizer], [scheduler]
